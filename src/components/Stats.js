@@ -22,4 +22,4 @@ import React from 'react';
     );
 }
 
-export default Stats
+export default Stats;
