@@ -12,18 +12,28 @@ import React from 'react';
 
 class AddPlayerForm extends React.Component{
  
-    state = {
-        value: ' '
-    };
+    // state = {
+    //     value: ' '
+    // };
+
+    /**
+     * We can traditionally access DOM elements by using React.createRef().
+     * If we assign a ref to any tag, it'll grab the html tag and assign it to Player Inputs.
+     * You can do this to quickly get input.
+     * Use state when you want to RENDER every keystroke. 
+     */
+    playerInput = React.createRef();
+
     //Handle Value change will receive a DOM event. Normalized event done by React
-    handleValueChange = (e) => {
-        this.setState({value: e.target.value});
-    }
+    // handleValueChange = (e) => {
+    //     this.setState({value: e.target.value});
+    // }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.addPlayer(this.state.value);
-        this.setState({value: ' '});
+        //this.props.addPlayer(this.state.value);
+        this.props.addPlayer(this.playerInput.current.value);
+        // this.setState({value: ' '});
     }
 
     render(){
@@ -31,8 +41,9 @@ class AddPlayerForm extends React.Component{
             <form onSubmit={this.handleSubmit}>
                 <input 
                     type="text" 
-                    onChange = {this.handleValueChange}
-                    value= {this.state.value}
+                    ref={this.playerInput}
+                    // onChange = {this.handleValueChange}
+                    // value= {this.state.value}
                     placeholder="Enter a player's name"
                 ></input>
                 <input 

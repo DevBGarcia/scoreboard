@@ -9,9 +9,17 @@ class Stopwatch extends React.Component{
     }
 
     //Life Cycle HOOKS
+    //Careful with mount functions, make sure to stop things like setInterval to avoid leaks
+    //Use this lifeCycle method to fetch data from an API!
+    //Use this when a component is inserted into the DOM!
     componentDidMount(){
         console.log('The stop watch mounted!');
         this.intervalID = setInterval(()=> this.tick(),100);
+    }
+
+    //Function called when component is unmounted and taken off
+    componentWillUnmount(){
+        clearInterval();
     }
 
     /** Component Lifecycle
@@ -50,17 +58,26 @@ class Stopwatch extends React.Component{
         }
     }
 
+    handleReset = () => {
+        console.log('Reset pressed...');
+        this.setState({
+            elapsedTime: 0
+        });
+    }
+
 
     render (){
+
+        let seconds = Math.floor(this.state.elapsedTime/1000)
 
         let startOrStop = this.state.isRunning ? 'Stop' : 'Start';
 
         return(
             <div className="stopwatch">
                 <h2>Stopwatch</h2>
-                <span className="stopwatch-time">{this.state.elapsedTime}</span>
+                <span className="stopwatch-time">{seconds}</span>
                 <button onClick={this.handleStopwatch}>{startOrStop}</button>
-                <button>Reset</button>
+                <button onClick={this.handleReset}>Reset</button>
             </div>
         );
     };

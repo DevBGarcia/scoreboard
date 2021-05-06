@@ -4,8 +4,16 @@ import Player from './Player.js';
 import Stats from './Stats.js';
 import AddPlayerForm from './AddPlayerForm.js';
 
-//Two or more components can share the same state
+// Two or more components can share the same state
 // App is a Class , full STATE component
+
+/** Type Checking in REACT
+ * You want to do type checking when passing down props. In many cases, if you simply don't
+ * pass down a prop, a child element wont render it and it wont show up as an error.
+ * 
+ * check for PropTypes, TypeScript, and Flow
+ */
+
 class App extends React.Component {
   //Assining STATE to App method Model
   state = {
@@ -36,6 +44,20 @@ class App extends React.Component {
   //Player id counter;
   prevPlayerId = 4;
 
+  /**
+   * The map() method creates a new array populated with the results of 
+   * calling a provided function on every element in the calling array.
+   */
+
+  getHighScore = () => {
+    const scores = this.state.players.map(p => p.score);
+    const highScore = Math.max(...scores);
+    if(highScore){
+      return highScore;
+    }
+    return null;
+  }
+
   handleScoreChange = (index, delta) => {
     this.setState( (prevState) => ({
       score:prevState.players[index].score += delta
@@ -64,10 +86,13 @@ class App extends React.Component {
   }
 
   render() {
+
+    const highScore = this.getHighScore();
+
     return (
       <div className="scoreboard">
         <Header //Assining PROPS to Header method Model
-          title="Scoreboard" 
+          //title="Scoreboard" 
           players={this.state.players}
         />
 
@@ -79,7 +104,8 @@ class App extends React.Component {
             index={index} 
             removePlayer={this.handleRemovePlayer}
             score={player.score}
-            changeScore={this.handleScoreChange}           
+            changeScore={this.handleScoreChange}
+            isHighScore={highScore === player.score}  //Checks if player has high score        
           />
         )}
         <AddPlayerForm addPlayer={this.handleAddPlayer}/>
