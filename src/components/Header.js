@@ -8,11 +8,12 @@ import Stopwatch from './Stopwatch.js';
 const Header = (props) => {
   // This will extract props into an array to make code cleaner
   const { 
-    players, title 
+    /*players,*/ title //No longer need to pass players types, context takes care of it  
   } = props; 
     return (
       <header>
-        <Stats players = {players}/>
+        {/*<Stats players = {players}/> No longer need to pass prop types, context takes care of it*/}
+        <Stats/>
         <h1>{ title }</h1>
         <Stopwatch/>
       </header>

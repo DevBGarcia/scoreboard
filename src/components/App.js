@@ -1,6 +1,7 @@
 import React from 'react';
+import { Provider } from './Context'; //Node will look for index.js file and find Provider
 import Header from './Header.js';
-import Player from './Player.js';
+import PlayerList from './PlayerList';
 import Stats from './Stats.js';
 import AddPlayerForm from './AddPlayerForm.js';
 
@@ -90,26 +91,22 @@ class App extends React.Component {
     const highScore = this.getHighScore();
 
     return (
-      <div className="scoreboard">
-        <Header //Assining PROPS to Header method Model
-          //title="Scoreboard" 
-          players={this.state.players}
-        />
-
-        {this.state.players.map( (player, index) =>
-          <Player //Assining PROPS to Player method Model
-            name={player.name}
-            id={player.id}
-            key={player.id.toString()}
-            index={index} 
-            removePlayer={this.handleRemovePlayer}
-            score={player.score}
-            changeScore={this.handleScoreChange}
-            isHighScore={highScore === player.score}  //Checks if player has high score        
+      <Provider value={this.state.players}>
+        <div className="scoreboard">
+          <Header //Assining PROPS to Header method Model
+            //title="Scoreboard" 
+            //players={this.state.players} No longer need to add players because of Provider/Context
           />
-        )}
-        <AddPlayerForm addPlayer={this.handleAddPlayer}/>
-      </div>
+
+          <PlayerList 
+            players={this.state.players} 
+            changeScore={this.handleScoreChange}
+            removePlayer={this.handleRemovePlayer}   
+          />
+
+          <AddPlayerForm addPlayer={this.handleAddPlayer}/>
+        </div>
+      </Provider>
     );
   }
 }
