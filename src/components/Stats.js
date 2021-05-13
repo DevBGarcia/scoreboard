@@ -12,15 +12,16 @@ import { Consumer } from './Context';
     return(
         <Consumer>
             { context => {
-                const totalPoints = context.reduce( (total, player) => {
+                let totalPoints = context.players.reduce( (total, player) => {
                     return total + player.score;
                 }, 0);
+                
                 return (
                     <table className="stats">
                         <tbody>
                             <tr>
                             <td>Players:</td>
-                            <td>{context.length}</td>
+                            <td>{context.players.length}</td>
                             </tr>
                             <tr>
                             <td>Total Points:</td>

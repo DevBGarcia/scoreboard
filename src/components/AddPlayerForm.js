@@ -1,4 +1,5 @@
 import React from 'react';
+import {Consumer} from './Context';
 
 // When users text into a state field, they change the state of the text field.
 // This is why you cannot define a default value
@@ -29,28 +30,32 @@ class AddPlayerForm extends React.Component{
     //     this.setState({value: e.target.value});
     // }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        //this.props.addPlayer(this.state.value);
-        this.props.addPlayer(this.playerInput.current.value);
-        // this.setState({value: ' '});
-    }
-
     render(){
         return (
-            <form onSubmit={this.handleSubmit}>
-                <input 
-                    type="text" 
-                    ref={this.playerInput}
-                    // onChange = {this.handleValueChange}
-                    // value= {this.state.value}
-                    placeholder="Enter a player's name"
-                ></input>
-                <input 
-                    type="submit" 
-                    value="Add player"
-                ></input>
-            </form>
+            <Consumer>{
+                context => {
+                    let handleSubmit = (e) => {
+                    e.preventDefault();
+                    //this.props.addPlayer(this.state.value);
+                    context.actions.addPlayer(this.playerInput.current.value);
+                    // this.setState({value: ' '});
+                    } 
+                    return (
+                        <form onSubmit={handleSubmit}>
+                            <input 
+                                type="text" 
+                                ref={this.playerInput}
+                                // onChange = {this.handleValueChange}
+                                // value= {this.state.value}
+                                placeholder="Enter a player's name"
+                            ></input>
+                            <input 
+                                type="submit" 
+                                value="Add player"
+                            ></input>
+                        </form>
+                    )
+                }}</Consumer>
         )
     }
 }

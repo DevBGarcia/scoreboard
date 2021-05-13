@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import {Consumer} from  './Context';
 import Counter from './Counter.js';
 import Icon from './Icon.js';
 
@@ -40,7 +40,7 @@ import Icon from './Icon.js';
      * 'isRequired' is used to make sure a parameter exists
      */
     static propTypes = {
-      changeScore: PropTypes.func,
+      //changeScore: PropTypes.func,
       removePlayer: PropTypes.func,
       name: PropTypes.string.isRequired,
       score: PropTypes.number,
@@ -56,25 +56,29 @@ import Icon from './Icon.js';
         id,
         score,
         index,
-        removePlayer,
-        changeScore,
+        //removePlayer, // remove player passed down via context
+        //changeScore,
         isHighScore
       } = this.props;
 
       console.log(this.props.name + " Rendered");
       return (
+        //You can simplify and deconstruct context data by specifying input by object notation 
         <div className="player">
-          <span className="player-name">
-            <button className="remove-player" onClick={() => removePlayer(id)}>✖</button>
-            <Icon isHighScore={isHighScore}/>
-            { this.props.name }
-          </span>
+          <Consumer>{ // Can place the consumer around the WHATEVER you want access to the context data 
+            /*context*/({actions}) => (
+              <span className="player-name">
+                <button className="remove-player" onClick={() => actions.removePlayer(id)}>✖</button>
+                <Icon isHighScore={isHighScore}/>
+                { this.props.name }
+              </span>
+            )}</Consumer>
 
           <Counter 
-          score={score} 
-          changeScore={changeScore}
-          id={id}
-          index={index}    
+            score={score} 
+            //changeScore={changeScore} passed down via context
+            id={id}
+            index={index}    
           />
         </div>
       );

@@ -1,14 +1,20 @@
 import React from 'react';
+import {Consumer} from './Context';
 import PropTypes from 'prop-types';
 
 const Counter = (props) => {
   
     return (
-        <div className="counter">
-            <button className="counter-action decrement" onClick={() => props.changeScore(props.index,-1)}> - </button>
-            <span className="counter-score">{ props.score }</span>
-            <button className="counter-action increment" onClick={()=> props.changeScore(props.index,1)}> + </button>
-        </div>
+        //You can simplify and deconstruct context data by specifying input by object notation
+        <Consumer>{
+            (/*context*/{actions}) => (
+                <div className="counter">
+                    <button className="counter-action decrement" onClick={() => actions.changeScore(props.index,-1)}> - </button>
+                    <span className="counter-score">{ props.score }</span>
+                    <button className="counter-action increment" onClick={()=> actions.changeScore(props.index,1)}> + </button>
+                </div>
+            )}
+        </Consumer>
     );
   }
 
@@ -19,8 +25,8 @@ const Counter = (props) => {
 
   Counter.propTypes = {
       index: PropTypes.number,
-      score: PropTypes.number,
-      changeScore: PropTypes.func
+      score: PropTypes.number
+      //changeScore: PropTypes.func
   }
 
 export default Counter;
